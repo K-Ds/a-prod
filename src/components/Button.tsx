@@ -13,9 +13,9 @@ const Button = ({ text, type = 'normal', Icon, url }: ButtonProps) => {
     <Link
       to={url}
       className={`px-4 py-2 rounded-lg flex items-center gap-2 font-medium ${
-        type == 'normal'
+        type === 'normal'
           ? 'bg-slate-300'
-          : type == 'primary'
+          : type === 'primary'
           ? 'bg-green-600'
           : 'bg-red-400'
       }`}
