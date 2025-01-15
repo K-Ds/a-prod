@@ -1,43 +1,60 @@
-import { BsPlusCircleFill } from 'react-icons/bs';
-import TaskCard from './TaskCard';
-import Modal from './Modal';
-import { useState } from 'react';
+import { useState } from "react";
+import { type Project } from "../types/project.types";
+import { NotebookPen, SquareCheckBig} from "lucide-react";
 
-const ProjectCard = () => {
-  const [showModal, setShowModal] = useState<boolean>(false);
-  return (
-    <div className="flex flex-col min-w-[32%] gap-4 px-3 py-2 border-dashed border-2 border-gray-300 rounded-lg">
-      <header className="flex justify-between">
-        <p className="font-bold">To do</p>
-        <div className="flex gap-1 items-center cursor-pointer" onClick={() => setShowModal(true)}>
-          <BsPlusCircleFill/>
-          <span className="font-semibold text-sm">Add new task</span>
+
+type ProjectCardProps = {
+    project: Project;
+}
+
+const ProjectCard = ({project}: ProjectCardProps) => {
+    const {title, description, recentTasks, notes, tasks} = project
+    const progress = 65
+
+    return (
+        <div className="flex flex-row rounded-md shadow-md px-4 py-4 gap-6">
+            <div className="flex flex-col px-2 gap-5 flex-1">
+            {/* Header */}
+            <div className="flex flex-col gap-2">
+                <h1 className="font-bold text-lg ">{title}</h1>
+                <p>{description}</p>
+            </div>
+            {/* Progress */}
+            <div className="flex flex-col gap-3">
+                <div className="flex flex-row justify-between">
+                    <span>Progress</span>
+                    <span>{progress}%</span>
+                </div>
+                <div className="w-full bg-gray-200 rounded-full h-2">
+                  <div 
+                    className="bg-[#2C4251] h-2 rounded-full" 
+                    style={{ width: `${progress}%` }}
+                  />
+                </div>
+            </div>
+            {/* Notes and Tasks */}
+            <div className="flex flex-row items-center gap-8 text-gray-600">
+            <div className="flex flex-row items-center gap-2">
+                    <SquareCheckBig size={18}/>
+                    <span>{tasks.length} tasks</span>
+                </div>
+                <div className="flex flex-row items-center gap-2">
+                    <NotebookPen size={18}/>
+                    <span>{notes.length} notes</span>
+                </div>
+
+            </div>
+            </div>
+
+            {/* Active Tasks */}
+            <div className="flex-1 hidden flex-col gap-4 2xl:flex">
+                <p>Recent Tasks</p>
+                <div className="flex flex-col gap-2">
+                    {recentTasks.map(task => <div># {task}</div>)}
+                </div>
+            </div>
         </div>
-      </header>
-      <div className="flex flex-col gap-3">
-        <TaskCard />
-        <TaskCard />
-        <TaskCard />
-        <TaskCard />
-      </div>
-      <Modal onClose={() => setShowModal(false)} show={showModal} header="New Task">
-        {/* Title */}
-        <input type='text' className='font-bold text-xl py-2 px-4 w-full border-gray-200 border rounded-lg' value="New Task"/>
-        {/* Description */}
-        <div className='flex flex-col gap-3'>
-          <label className='font-bold'>Description</label>
-          <input type='text' className='border-gray-200 border rounded-md py-2 px-4' placeholder='Small Description of the project'/>
-        </div>
-        <div className='flex flex-col gap-3'>
-          <label className='font-bold'>Description</label>
-          <textarea rows={4} className='border-gray-200 border rounded-md py-2 px-4' placeholder='Small Description of the project'/>
-        </div>
-        <button className='px-4 py-2 rounded-lg flex items-center gap-2 font-medium bg-primary justify-center' onClick={() => setShowModal(false)}>
-          Add Task
-        </button>
-      </Modal>
-    </div>
-  );
+    )
 };
 
-export default ProjectCard;
+export default ProjectCard
