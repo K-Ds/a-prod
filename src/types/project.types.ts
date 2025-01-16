@@ -6,4 +6,5 @@ export type Project = {
     description: string;
     tasks: string[];
     notes: string[];
+    progress: string|number;
 }

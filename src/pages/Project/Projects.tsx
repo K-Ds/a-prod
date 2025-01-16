@@ -5,9 +5,12 @@ import NewProjectModal from '../../components/modals/NewProjectModal';
 import ProjectCard from '../../components/ProjectCard';
 import projectsData from '../../data/projects';
 import { type Project } from '../../types/project.types';
+import { useNavigate } from 'react-router-dom';
 
 
 const ProjectHome = () => {
+  const navigate = useNavigate()
+
   const [showModal, setShowModal] = useState<boolean>(false);
   const [showScroll, setShowScroll] = useState<boolean>(false);
 
@@ -17,8 +20,12 @@ const ProjectHome = () => {
     setProjects(projectsData)
   },[])
 
+  const onProjectDetails = (id:string) =>{
+    navigate(`/projects/${id}`)
+  }
+
   return (
-    <div className='flex flex-col gap-5 p-5 h-full'>
+    <div className='flex flex-col gap-5 p-5 h-full w-full 2xl:w-4/5'>
       <div className='flex flex-row w-full justify-between'>
         <div className='flex flex-row gap-6 items-center'>
         <h1 className='text-2xl font-semibold'>Projects</h1>
@@ -31,9 +38,9 @@ const ProjectHome = () => {
         <input type='text' placeholder='Search' className='px-2 bg-transparent border-0 outline-none'/>
       </div>
       </div>
-      <div className='flex gap-6 flex-col overflow-y-scroll pb-5'>
+      <div className='flex gap-6 flex-col overflow-y-scroll pb-5 scrollbar'>
         {
-          projects.map(project => <ProjectCard project={project}/>)
+          projects.map(project => <ProjectCard project={project} onOpenProject={onProjectDetails}/>)
         }
       <NewProjectModal onClose={() => setShowModal(false)} show={showModal}/>
     </div>
