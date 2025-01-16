@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { type Project } from "../types/project.types";
-import { Hash, NotebookPen, SquareCheckBig} from "lucide-react";
+import { Circle, CircleCheck, CircleDashed, Hash, NotebookPen, SquareCheckBig} from "lucide-react";
 import { fetchProjectRecentTasks } from "../data/projects";
 import { Task } from "../types/task.types";
 
@@ -65,7 +65,11 @@ const ProjectCard = ({project,onOpenProject}: ProjectCardProps) => {
                 <div className="flex flex-col gap-2">
                     {tasksDetails.map(task => 
                     <div className="flex flex-row gap-2 items-center">
-                        <Hash size={18} color={`${task?.status === "todo" ? '#D3D5D7' : task?.status==="in-progress"? '#2C4251' : '#79AEA3'}`}/>
+                         {task?.status === "todo" ? 
+                        <CircleDashed size={18} color="#D3D5D7"/> : 
+                    task?.status==="in-progress"? 
+                        <Circle size={18} color="#2C4251"/> : 
+                    <CircleCheck size={18} color='#79AEA3'/>}
                         <span>{task?.title}</span>
                     </div>)}
                 </div>

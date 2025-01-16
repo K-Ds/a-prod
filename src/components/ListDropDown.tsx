@@ -1,37 +1,36 @@
 import React, { useState } from 'react';
 import { PiCaretDownBold, PiCaretRightBold } from 'react-icons/pi';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { Project } from '../types/project.types';
+import { Folder, FolderDot } from 'lucide-react';
 
 interface ListDropDownProps {
-  data: Array<{ id: string; text: string; url: string }>;
-  header: string;
+  data: Array<Project>;
+  header: string
 }
 
 const ListDropDown = ({ data, header }: ListDropDownProps) => {
   const [hidden, setHidden] = useState(true);
-  const id = '32REFTA';
+  const navigate = useNavigate()
 
   return (
     <div className="flex flex-col gap-3 w-full">
       <div
         className="flex gap-2 items-center justify-between font-semibold"
-        onClick={() => setHidden(!hidden)}
       >
-        <p>{header}</p>
-        {hidden ? <PiCaretRightBold /> : <PiCaretDownBold />}
+        <p className='cursor-pointer' onClick={() =>navigate("/projects") }>{header}</p>
+        {hidden ? <PiCaretRightBold onClick={() => setHidden(!hidden)} className='cursor-pointer'/> : <PiCaretDownBold className='cursor-pointer' onClick={() => setHidden(!hidden)}/>}
       </div>
       {!hidden && (
-        <div className="flex flex-col gap-3 border-l-2 border-gray-400">
+        <div className="flex flex-col gap-3">
           {data.map((item) => (
             <Link
-              to={item.url}
-              className={`flex items-center gap-4 font-semibold text-sm ${
-                id === item.id ? 'text-black' : 'text-gray-500 '
-              }`}
+              to={`/projects/${item.id}`}
+              className={`flex items-center gap-4 pl-4 py-2`}
               key={item.id}
             >
-              <div className="bg-gray-400 w-3 h-0.5"></div>
-              <p>{item.text}</p>
+              <FolderDot size={20}/>
+              <p>{item.title}</p>
             </Link>
           ))}
         </div>

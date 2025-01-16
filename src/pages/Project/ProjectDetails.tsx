@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Project } from "../../types/project.types";
 import { fetchProjectDetails, fetchProjectTasks } from "../../data/projects";
 import { useNavigate, useParams } from "react-router-dom";
-import { Circle, CircleCheck, CircleDashed, Dot, EllipsisVertical, Filter } from "lucide-react";
+import { Circle, CircleCheck, CircleDashed, CirclePlus, Dot, EllipsisVertical, Filter } from "lucide-react";
 import { Task } from "../../types/task.types";
 import { Note } from "../../types/notes.types";
 import { fetchNotesDetails } from "../../data/notes";
@@ -41,7 +41,6 @@ const ProjectDetails = () => {
         return data
         
     }, [id]);
-
     
 
     useEffect(() => {
@@ -117,7 +116,10 @@ const ProjectDetails = () => {
                     {/* tasks */}
                     <div className="w-full flex flex-col gap-y-4">
                         <div className="w-full flex flex-row justify-between items-center">
-                            <h3 className="font-bold text-lg">Tasks</h3>
+                            <div className="flex flex-row gap-4 items-center">
+                                <h3 className="font-bold text-lg">Tasks</h3>
+                                <CirclePlus size={21} />
+                            </div>
                             <Filter size={18}/>
                         </div>
 
@@ -126,7 +128,10 @@ const ProjectDetails = () => {
                     {/* tasks */}
                     <div className="w-full flex flex-col gap-y-4">
                         <div className="w-full flex flex-row justify-between items-center mr-3">
-                            <h3 className="font-bold text-lg">Notes</h3>
+                        <div className="flex flex-row gap-4 items-center">
+                                <h3 className="font-bold text-lg">Notes</h3>
+                                <CirclePlus size={21} />
+                            </div>
                             <Filter size={18}/>
                         </div>
                         {notesDetails.map(note => <ProjectNote note={note} color={details.colorCode}/>)}
