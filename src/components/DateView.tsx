@@ -15,11 +15,12 @@ const DateView = () => {
   }, []);
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="hidden lg:flex flex-col gap-2">
       <span className="text-5xl font-bold">
         {time.toLocaleTimeString('en-US')}
       </span>
-      <span className="font-semibold text-lg">Monday 21, September</span>
+      <span className="font-semibold text-lg">{time.toLocaleDateString('en-US', { weekday: 'long', day: 'numeric', month: 'long' })}</span>
+    
     </div>
   );
 };

@@ -16,7 +16,7 @@ const ListDropDown = ({ data, header }: ListDropDownProps) => {
   return (
     <div className="flex flex-col gap-3 w-full">
       <div
-        className="flex gap-2 items-center justify-between font-semibold"
+        className="flex gap-2 items-center justify-between font-semibold text-lg"
       >
         <p className='cursor-pointer' onClick={() =>navigate("/projects") }>{header}</p>
         {hidden ? <PiCaretRightBold onClick={() => setHidden(!hidden)} className='cursor-pointer'/> : <PiCaretDownBold className='cursor-pointer' onClick={() => setHidden(!hidden)}/>}
