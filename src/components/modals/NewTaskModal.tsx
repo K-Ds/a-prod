@@ -1,7 +1,7 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { NewTask } from "../../types/task.types";
 import projects from "../../data/projects";
-import { useAppDispatch } from "../../store/hook";
+import { useAppDispatch } from "../../store/hooks";
 import { closeModal } from "../../store/slices/modal.slice";
 
 type NewTaskModalProps = {

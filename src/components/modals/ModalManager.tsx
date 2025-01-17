@@ -3,7 +3,7 @@ import Modal from './Modal'
 import { closeModal } from '../../store/slices/modal.slice'
 import NewTaskModal from './NewTaskModal'
 import NewNoteModal from './NewNoteModal'
-import { useAppDispatch, useAppSelector } from '../../store/hook'
+import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import NewProjectModal from './NewProjectModal'
 
 const ModalManager = () => {

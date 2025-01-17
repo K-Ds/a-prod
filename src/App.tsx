@@ -1,20 +1,15 @@
-import Sidebar from './components/Sidebar';
-import Navbar from './components/Navbar';
-import Main from './routes/index';
-import ModalManager from './components/modals/ModalManager';
+import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
+import { store } from './store';
+import Router from './routes';
 
 function App() {
   return (
-    <div className="flex h-screen overflow-hidden">
-      <Sidebar />
-      <div className="flex-1 flex flex-col  bg-gray-50 overflow-hidden">
-        <Navbar />
-        <main className="flex-1 overflow-hidden flex flex-col items-center">
-          <Main />
-        </main>
-      </div>
-      <ModalManager/>
-    </div>
+    <Provider store={store}>
+    <BrowserRouter>
+      <Router />
+    </BrowserRouter>
+    </Provider>
   );
 }
 

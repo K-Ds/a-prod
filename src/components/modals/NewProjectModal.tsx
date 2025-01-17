@@ -1,6 +1,6 @@
 import { NewProject} from "../../types/project.types";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useAppDispatch } from "../../store/hook";
+import { useAppDispatch } from "../../store/hooks";
 import { closeModal } from "../../store/slices/modal.slice";
 
 

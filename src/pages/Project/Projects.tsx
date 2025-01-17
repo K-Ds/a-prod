@@ -6,7 +6,7 @@ import ProjectCard from '../../components/ProjectCard';
 import projectsData from '../../data/projects';
 import { type Project } from '../../types/project.types';
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch } from '../../store/hook';
+import { useAppDispatch } from '../../store/hooks';
 import { openModal } from '../../store/slices/modal.slice';
 
 

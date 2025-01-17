@@ -1,7 +1,7 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import projects from "../../data/projects";
 import { NewNote } from "../../types/notes.types";
-import { useAppDispatch } from "../../store/hook";
+import { useAppDispatch } from "../../store/hooks";
 import { closeModal } from "../../store/slices/modal.slice";
 
 type NewNoteModalProps = {
