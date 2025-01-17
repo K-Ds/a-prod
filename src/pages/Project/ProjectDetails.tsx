@@ -6,6 +6,8 @@ import { Circle, CircleCheck, CircleDashed, CirclePlus, Dot, EllipsisVertical, F
 import { Task } from "../../types/task.types";
 import { Note } from "../../types/notes.types";
 import { fetchNotesDetails } from "../../data/notes";
+import { useAppDispatch } from "../../store/hook";
+import { openModal } from "../../store/slices/modal.slice";
 
 type ProjectDetailsProps =
  {
@@ -13,7 +15,7 @@ type ProjectDetailsProps =
 }
 
 const ProjectDetails = () => {
-
+    const dispatch = useAppDispatch()
     const params = useParams()
     const navigate = useNavigate()
     const {id} = params
@@ -118,19 +120,19 @@ const ProjectDetails = () => {
                         <div className="w-full flex flex-row justify-between items-center">
                             <div className="flex flex-row gap-4 items-center">
                                 <h3 className="font-bold text-lg">Tasks</h3>
-                                <CirclePlus size={21} />
+                                <CirclePlus size={21} onClick={() => dispatch(openModal({modalType: "task", modalProps: {projectId:id}}))} className="cursor-pointer"/>
                             </div>
                             <Filter size={18}/>
                         </div>
 
                         {tasksDetails.map(task => <ProjectTask task={task as Task}/>)}
                     </div>
-                    {/* tasks */}
+                    {/* notes */}
                     <div className="w-full flex flex-col gap-y-4">
                         <div className="w-full flex flex-row justify-between items-center mr-3">
                         <div className="flex flex-row gap-4 items-center">
                                 <h3 className="font-bold text-lg">Notes</h3>
-                                <CirclePlus size={21} />
+                                <CirclePlus size={21} onClick={() => dispatch(openModal({modalType: "note", modalProps: {projectId: id}}))} className="cursor-pointer"/>
                             </div>
                             <Filter size={18}/>
                         </div>

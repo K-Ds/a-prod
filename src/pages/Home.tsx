@@ -8,7 +8,7 @@ import DateView from '../components/DateView';
 
 const Home = () => {
   return (
-    <div className="p-8 flex flex-col gap-12">
+    <div className="p-8 flex flex-col gap-12 w-full">
       {/* Dashbuttons */}
       <div className="flex gap-3 justify-between">
         <DateView />

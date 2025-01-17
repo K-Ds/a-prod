@@ -6,14 +6,14 @@ import ProjectCard from '../../components/ProjectCard';
 import projectsData from '../../data/projects';
 import { type Project } from '../../types/project.types';
 import { useNavigate } from 'react-router-dom';
+import { useAppDispatch } from '../../store/hook';
+import { openModal } from '../../store/slices/modal.slice';
 
 
 const ProjectHome = () => {
   const navigate = useNavigate()
 
-  const [showModal, setShowModal] = useState<boolean>(false);
-  const [showScroll, setShowScroll] = useState<boolean>(false);
-
+  const dispatch = useAppDispatch()
   const [projects, setProjects] = useState<Project[]>([])
 
   useEffect(()=>{
@@ -29,7 +29,7 @@ const ProjectHome = () => {
       <div className='flex flex-row w-full justify-between'>
         <div className='flex flex-row gap-6 items-center'>
         <h1 className='text-2xl font-semibold'>Projects</h1>
-        <button className='px-3 py-2 rounded-lg flex items-center font-medium bg-primary justify-center w-fit' onClick={() => setShowModal(true)}>
+        <button className='px-3 py-2 rounded-lg flex items-center font-medium bg-primary justify-center w-fit' onClick={() => dispatch(openModal({modalType:"project"}))}>
         <Plus size={20}/>
       </button>
       </div>
@@ -42,7 +42,6 @@ const ProjectHome = () => {
         {
           projects.map(project => <ProjectCard project={project} onOpenProject={onProjectDetails}/>)
         }
-      <NewProjectModal onClose={() => setShowModal(false)} show={showModal}/>
     </div>
     </div>
   );

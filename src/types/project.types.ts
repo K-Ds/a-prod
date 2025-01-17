@@ -8,3 +8,9 @@ export type Project = {
     notes: string[];
     progress: string|number;
 }
+
+export type NewProject = {
+    title: string;
+    colorCode: string;
+    description: string;
+}

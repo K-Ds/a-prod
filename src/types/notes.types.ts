@@ -5,3 +5,8 @@ export type Note = {
     project?: string;
   }
 
+  export type NewNote = {
+    title: string;
+    content: string;
+    project?: string;
+  }

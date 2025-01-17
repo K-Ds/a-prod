@@ -1,6 +1,7 @@
 import Sidebar from './components/Sidebar';
 import Navbar from './components/Navbar';
 import Main from './routes/index';
+import ModalManager from './components/modals/ModalManager';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
           <Main />
         </main>
       </div>
+      <ModalManager/>
     </div>
   );
 }
