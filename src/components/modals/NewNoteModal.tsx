@@ -51,6 +51,7 @@ const NewNoteModal = ({projectId}:NewNoteModalProps) => {
                 <div className='flex flex-col gap-3'>
                     <label className='font-bold' htmlFor="title">Project</label>
                     <select id="project" {...register("project")} className='py-2 px-4 w-full border border-gray-200 rounded-md'>
+                        <option key='nonoe' value=''>None</option>
                       {projects.map(project => <option key={project.id} value={project.id}>{project.title}</option>)}
                     </select>
                 </div>

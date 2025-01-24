@@ -10,33 +10,29 @@ import { useAppDispatch } from "../../store/hooks";
 import { openModal } from "../../store/slices/modal.slice";
 import { Menu, MenuHeader, MenuItem, SubMenu } from "@szhsin/react-menu";
 import { AppDispatch } from "../../store";
+import { fetchPersonalTasks } from "../../data/tasks";
+import { thisWeekTasksFilter } from "../../utils/taskHelpers";
 
 
-const ProjectDetails = () => {
+const Tasks = () => {
     const dispatch = useAppDispatch()
-    const params = useParams()
     const navigate = useNavigate()
-    const {id} = params
 
-
-    if(!id){
-        navigate("projects")
-    }
-
-    const [details, setDetails] = useState<Project|undefined>()
+    const [tasks, setTasks] = useState<Task[]|undefined>()
+    const [thisWeekTasks, setThisWeekTasks] = useState<Task[]|undefined>()
 
     const ProjectMenu  = () => {
         return (
             <Menu menuButton={<Ellipsis className="m-2" size={24}/>} transition align="end" menuClassName="bg-white border-2  rounded-md px-4 py-4 w-80 gap-2">
                 <MenuHeader className="font-semibold">Settings</MenuHeader>
-                <MenuItem className="px-6 py-2 flex flex-row gap-2 items-center">
+                {/* <MenuItem className="px-6 py-2 flex flex-row gap-2 items-center">
                     <Archive size={18}/> 
                     <span>Archive</span>
                 </MenuItem>
                 <MenuItem className="text-red-500 px-6 py-2 flex flex-row gap-2 items-center">
                     <Trash2 size={18} className="stroke-red-500"/>
                     <span>Delete</span>
-                </MenuItem>
+                </MenuItem> */}
             </Menu>
         )
     }
@@ -77,60 +73,24 @@ const ProjectDetails = () => {
         )
     }
 
-    const NoteMenu  = ({noteId, dispatch}:{noteId: string; dispatch: AppDispatch}) => {
-        return (
-            <Menu menuButton={<EllipsisVertical className="m-2" size={24}/>} transition align="end" menuClassName="bg-white border-2  rounded-md w-80">
-                <MenuItem className="px-6 py-3 flex flex-row gap-2 items-center" onClick={() => dispatch(openModal({modalType:'note', modalProps: {noteId:noteId}}))}>
-                    <Eye size={18}/> 
-                    <span>Open</span>
-                </MenuItem>
-                
-                <MenuItem className="px-6 py-3 flex flex-row gap-2 items-center">
-                    <Archive size={18}/> 
-                    <span>Archive</span>
-                </MenuItem>
-
-                <MenuItem className="text-red-500 px-6 py-3 flex flex-row gap-2 items-center">
-                    <Trash2 size={18} className="stroke-red-500"/>
-                    <span>Delete</span>
-                </MenuItem>
-            </Menu>
-        )
+    const stats = (type: 'todo' | 'in-progress' | 'done') => {
+        return thisWeekTasks?.filter(task => task.status === type).length
     }
 
-    const tasksDetails = useMemo(() => {
-        const data = fetchProjectTasks(id as string)
-
-        if(!data) return [];
-        
-        return data
-        
-    }, [id]);
-
-    const notesDetails = useMemo(() => {
-        const data = fetchNotesDetails(id as string)
-
-        if(!data) return [];
-        
-        return data
-        
-    }, [id]);
-
-    
-    
 
     useEffect(() => {
         try {
-            const data = fetchProjectDetails(id as string)
-            data.progress = Math.floor(Math.random() * 100)
-            setDetails(data)
+            const data = fetchPersonalTasks()
+            setTasks(data)
+
+            setThisWeekTasks(thisWeekTasksFilter(data))
         }
         catch(err) {
             console.error(err)
         }
-    }, [id]) 
+    }, []) 
 
-    const ProjectDetailsCard = ({name, value, color}: {name:string, value:string|number, color: string}) => {
+    const DetailsCard = ({name, value}: {name:string, value:string|number}) => {
         return (
         <div className={`p-4 rounded-lg flex flex-col gap-2  bg-slate-200`}>
             <span className={`text-gray-500 capitalize`}>{name}</span>
@@ -139,7 +99,7 @@ const ProjectDetails = () => {
         
     )}
 
-    const ProjectTask = ({task}:{task:Task}) => {
+    const TaskRow = ({task}:{task:Task}) => {
         return (
             <div className="flex flex-row justify-between items-center w-full px-3 py-4 bg-slate-100 rounded-lg">
                 <div className="flex flex-row items-center gap-4 flex-1">
@@ -160,65 +120,40 @@ const ProjectDetails = () => {
         )
     };
 
-    const ProjectNote = ({note, color}:{note:Note, color:string}) => {
-        return (
-            <div className="flex flex-row justify-between items-center w-full px-3 py-2 bg-slate-100 rounded-lg">
-                <div className="flex flex-row items-center flex-1">
-                   <Dot color={color} size={48} />
-                    <span>{note.title}</span>
-                </div>
-                <div className="flex flex-row items-center gap-2 justify-between">
-                    <NoteMenu noteId={note.id} dispatch={dispatch}/>
-                </div>
-                
-            </div>
-        )
-    };
-
     return (
-        <div className="flex flex-col p-6 w-full overflow-y-scroll scrollbar">
-            {details && 
+        <div className="flex flex-col p-6 w-full overflow-y-scroll scrollbar"> 
                 <div className="flex flex-col gap-y-8 px-6 py-4 w-full rounded-lg border">
-                    <div className="flex flex-col gap-2">
-                        <div className="flex flex-row justify-between">
-                        <h2 className="font-bold text-2xl">{details.title}</h2>
+                <div className="flex flex-col gap-5">
+                    <div className="flex flex-row justify-between">
+                        <h2 className="font-bold text-2xl">Personal Tasks</h2>
                         <ProjectMenu/>
-                        </div>
-                        <p className="text-gray-500 tracking-wide text-justify">{details.description}</p>
                     </div>
-                    <div className="w-full grid gap-4 items-center grid-cols-1 md:grid-cols-2 2xl:grid-cols-4">
-                        <ProjectDetailsCard name="tasks" value={details.tasks.length}  color={details.colorCode}/>
-                        <ProjectDetailsCard name="notes" value={details.notes.length}  color={details.colorCode}/>
-                        <ProjectDetailsCard name="to do" value={details.notes.length}  color={details.colorCode}/>
-                        <ProjectDetailsCard name="Progress" value={details?.progress}  color={details.colorCode}/>
+
+                    {/* TODO: Motiviation */}
+                </div>
+                    <div className="flex flex-col gap-5">
+                        <p className=" font-semibold tracking-wide text-justify">This week on A-PROD</p>
+                        <div className="w-full grid gap-4 items-center grid-cols-1 md:grid-cols-2 2xl:grid-cols-4">
+                            <DetailsCard name="To Do" value={stats("todo")||0} />
+                            <DetailsCard name="In Progress" value={stats("in-progress")||0} />
+                            <DetailsCard name="Done" value={stats("done")||0} />
+                        </div>
                     </div>
                     {/* tasks */}
                     <div className="w-full flex flex-col gap-y-4">
                         <div className="w-full flex flex-row justify-between items-center">
                             <div className="flex flex-row gap-4 items-center">
                                 <h3 className="font-bold text-lg">Tasks</h3>
-                                <CirclePlus size={21} onClick={() => dispatch(openModal({modalType: "task", modalProps: {projectId:id}}))} className="cursor-pointer"/>
+                                <CirclePlus size={21} onClick={() => dispatch(openModal({modalType: "task"}))} className="cursor-pointer"/>
                             </div>
                             <Filter size={18}/>
                         </div>
 
-                        {tasksDetails.map(task => <ProjectTask task={task as Task}/>)}
-                    </div>
-                    {/* notes */}
-                    <div className="w-full flex flex-col gap-y-4">
-                        <div className="w-full flex flex-row justify-between items-center">
-                        <div className="flex flex-row gap-4 items-center">
-                                <h3 className="font-bold text-lg">Notes</h3>
-                                <CirclePlus size={21} onClick={() => dispatch(openModal({modalType: "note", modalProps: {projectId: id}}))} className="cursor-pointer"/>
-                            </div>
-                            <Filter size={18}/>
-                        </div>
-                        {notesDetails.map(note => <ProjectNote note={note} color={details.colorCode}/>)}
+                        {tasks && tasks.map(task => <TaskRow task={task as Task}/>)}
                     </div>
                 </div>
-            }
         </div>
     )
 };
 
-export default ProjectDetails;
+export default Tasks;

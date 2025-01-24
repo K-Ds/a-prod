@@ -7,9 +7,10 @@ interface ButtonProps {
   type?: 'normal' | 'danger' | 'primary';
   url: string;
   Icon?: LucideIcon;
+  extended?: boolean;
 }
 
-const Button = ({ text, type = 'normal', Icon, url }: ButtonProps) => {
+const Button = ({ text, type = 'normal', Icon, url,extended = true }: ButtonProps) => {
   return (
     <Link
       to={url}
@@ -22,7 +23,7 @@ const Button = ({ text, type = 'normal', Icon, url }: ButtonProps) => {
       }`}
     >
       {Icon && <Icon color='#fff'/>}
-      <p className='text-white'>{text}</p>
+      {extended && <p className='text-white'>{text}</p>}
     </Link>
   );
 };

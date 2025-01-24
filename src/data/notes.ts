@@ -11,7 +11,17 @@ const notes = [
         title : "My Note Test", 
         content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
         project: "vf3264112"   
-    }
+    },
+    {
+        id: "f1370679",
+        title : "My Note Test", 
+        content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    },
+    {
+        id: "vf3264a9",
+        title : "My Note Test", 
+        content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    },
 ]
 
 export const fetchNotesDetails = (projectId:string) => {
@@ -24,4 +34,8 @@ export const fetchNotesDetails = (projectId:string) => {
     if(!data) return []
 
     return data.filter(note => note !== undefined)
+}
+
+export const fetchPersonalNotes = () => {
+    return notes.filter(note => note.project === undefined)
 }

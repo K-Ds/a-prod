@@ -122,4 +122,8 @@ const tasks: Task[] = [
     }
 ]
 
+export const fetchPersonalTasks = () => {
+    return tasks.filter(task => task.project === undefined);
+}
+
 export default tasks;

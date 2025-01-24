@@ -4,6 +4,8 @@ import Project from '../pages/Project/Projects';
 import ProjectDetails from '../pages/Project/ProjectDetails';
 import Pomodoro from '../pages/Pomodoro.tsx/Pomodoro';
 import DashLayout from '../layouts/DashLayout';
+import Notes from '../pages/notes/Notes';
+import Tasks from '../pages/tasks/Tasks';
 
 const Router = () => {
   return (
@@ -15,6 +17,12 @@ const Router = () => {
           <Route path=":id" element={<ProjectDetails />} />
         </Route>
         <Route path='pomodoro' element={<Pomodoro />} />
+        <Route path="tasks">
+          <Route index element={<Tasks />} />
+        </Route>
+        <Route path="notes">
+          <Route index element={<Notes />} />
+        </Route>
       </Route>
     </Routes>
   );

@@ -38,7 +38,7 @@ const ProjectHome = () => {
         <input type='text' placeholder='Search' className='px-2 bg-transparent border-0 outline-none'/>
       </div>
       </div>
-      <div className='flex gap-6 flex-col overflow-y-scroll pb-5 scrollbar'>
+      <div className='flex gap-y-6 flex-col overflow-y-scroll pb-5 scrollbar'>
         {
           projects.map(project => <ProjectCard project={project} onOpenProject={onProjectDetails}/>)
         }
